@@ -84,6 +84,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/igor/CLionProjects/cache/cache.hpp">
+			<Option target="cache"/>
+		</Unit>
 		<Unit filename="/home/igor/CLionProjects/cache/main.cpp">
 			<Option target="cache"/>
 		</Unit>

@@ -6,21 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/home/igor/CLionProjects/cache/main.cpp
-iostream
--
-map
--
-iterator
--
-list
--
+/home/igor/CLionProjects/cache/cache.hpp
 unordered_map
 -
 algorithm
 -
 array
 -
-set
+list
 -
+map
+-
+
+/home/igor/CLionProjects/cache/main.cpp
+iostream
+-
+cache.hpp
+/home/igor/CLionProjects/cache/cache.hpp
 
