@@ -8,8 +8,6 @@
 #include <list>
 #include <map>
 
-#define SIZE_ARRAY 10
-
 template<typename KeyT = int>
 struct Page {
     KeyT id_{};
@@ -83,8 +81,7 @@ public:
             cache_.splice(cache_.begin(), cache_, eltit, std::next(eltit));
         return true;
     }
-
-    //using MasIt = typename std::array<Page<KeyT>, SIZE_ARRAY>::iterator;
+    
     using VecIt = typename std::vector<Page<KeyT>>::iterator;
 
     int predict_index_find(const Page<KeyT>* elem, VecIt current, VecIt end, int index) {
@@ -123,32 +120,6 @@ public:
         }
         return true;
     }
-//
-//    bool lookup_Optimal(Page<KeyT>* elem, MasIt current, MasIt end, int index) {
-//        Cache_page<KeyT> cp {std::move(*elem), 0};
-//        cp.next_index_ = predict_index_find(elem, current, end, index);
-//        auto hit = std::find_if(cache_map_.begin(), cache_map_.end(), [cp](const auto& iter){
-//            return (cp.page_.id_ == iter.second.id_);
-//        });
-//        if (hit == cache_map_.end()) {
-//            if (!cache_map_full()) {
-//                if(cp.next_index_ != INT32_MAX) {
-//                    cache_map_.insert({cp.next_index_, cp.page_});
-//                }
-//            }
-//            else if (cache_map_full()) {
-//                cache_map_.insert({cp.next_index_, cp.page_});
-//                cache_map_.erase( --(cache_map_.end()) );
-//            }
-//            return false;
-//        }
-//        else {
-//            cache_map_.erase(cache_map_.begin());
-//            if(cp.next_index_ != INT32_MAX)
-//                cache_map_.insert({cp.next_index_, cp.page_});
-//        }
-//        return true;
-//    }
 };
 
 #endif

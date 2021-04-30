@@ -48,14 +48,4 @@ int main(int argc, char** argv) {
     std::cout << "hit LRU = " << hit_LRU << std::endl;
     std::cout << "hit Optimal = " << hit_Optimal << std::endl;
 
-//    std::cout << "hit LRU = " << hit_LRU << " expected " << argv[1] << std::endl;
-//    std::cout << "hit Optimal = " << hit_Optimal << " expected " << argv[2] << std::endl;
-//    int arg1 = atoi( argv[1]);
-//    int arg2 = atoi( argv[2]);
-//    if (hit_LRU == arg1 && hit_Optimal == arg2) {
-//        std::cout << "== TEST OK ==" << std::endl;
-//    }
-//    else {
-//        std::cout << "== TEST NOT OK ==" << std::endl;
-//    }
 }
