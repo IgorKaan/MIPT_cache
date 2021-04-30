@@ -3,11 +3,12 @@
 
 #include <unordered_map>
 #include <algorithm>
+#include <vector>
 #include <array>
 #include <list>
 #include <map>
 
-#define SIZE_ARRAY 30
+#define SIZE_ARRAY 10
 
 template<typename KeyT = int>
 struct Page {
@@ -41,7 +42,7 @@ template<typename KeyT = int>
 class cache_t {
 private:
 
-    int sz_;
+    unsigned sz_;
     using ListIt = typename std::list<Cache_page<KeyT>>::iterator;
     std::unordered_map<KeyT, ListIt> hash_{};
 
@@ -50,7 +51,7 @@ public:
     std::list<Cache_page<KeyT>> cache_ {};
     std::map<int, Page<KeyT>> cache_map_ {};
 
-    explicit cache_t(int sz) : sz_(sz) {}
+    explicit cache_t(unsigned sz) : sz_(sz) {}
 
     void clear() {
         cache_.clear();
@@ -83,9 +84,10 @@ public:
         return true;
     }
 
-    using MasIt = typename std::array<Page<KeyT>, SIZE_ARRAY>::iterator;
+    //using MasIt = typename std::array<Page<KeyT>, SIZE_ARRAY>::iterator;
+    using VecIt = typename std::vector<Page<KeyT>>::iterator;
 
-    int predict_index_find(const Page<KeyT>* elem, MasIt current, MasIt end, int index) {
+    int predict_index_find(const Page<KeyT>* elem, VecIt current, VecIt end, int index) {
         for (auto it = current; it < end; ++it) {
             ++index;
             if (elem ->id_ == it->id_) {
@@ -95,7 +97,8 @@ public:
         return INT32_MAX;
     }
 
-    bool lookup_Optimal(Page<KeyT>* elem, MasIt current, MasIt end, int index) {
+
+    bool lookup_Optimal(Page<KeyT>* elem, VecIt current, VecIt end, int index) {
         Cache_page<KeyT> cp {std::move(*elem), 0};
         cp.next_index_ = predict_index_find(elem, current, end, index);
         auto hit = std::find_if(cache_map_.begin(), cache_map_.end(), [cp](const auto& iter){
@@ -120,6 +123,32 @@ public:
         }
         return true;
     }
+//
+//    bool lookup_Optimal(Page<KeyT>* elem, MasIt current, MasIt end, int index) {
+//        Cache_page<KeyT> cp {std::move(*elem), 0};
+//        cp.next_index_ = predict_index_find(elem, current, end, index);
+//        auto hit = std::find_if(cache_map_.begin(), cache_map_.end(), [cp](const auto& iter){
+//            return (cp.page_.id_ == iter.second.id_);
+//        });
+//        if (hit == cache_map_.end()) {
+//            if (!cache_map_full()) {
+//                if(cp.next_index_ != INT32_MAX) {
+//                    cache_map_.insert({cp.next_index_, cp.page_});
+//                }
+//            }
+//            else if (cache_map_full()) {
+//                cache_map_.insert({cp.next_index_, cp.page_});
+//                cache_map_.erase( --(cache_map_.end()) );
+//            }
+//            return false;
+//        }
+//        else {
+//            cache_map_.erase(cache_map_.begin());
+//            if(cp.next_index_ != INT32_MAX)
+//                cache_map_.insert({cp.next_index_, cp.page_});
+//        }
+//        return true;
+//    }
 };
 
 #endif

@@ -1,33 +1,61 @@
 #include <iostream>
+#include <assert.h>
 #include "cache.hpp"
 
-int main() {
+int main(int argc, char** argv) {
 
-    cache_t cache(6);
-    unsigned hit_LRU = 0;
-    unsigned hit_Optimal = 0;
+    int cache_size = 0;
+    std::cout << "Enter cache size:" << std::endl;
+    std::cin >> cache_size;
+    std::cout << "Cache size: " << cache_size << std::endl;
+    assert(cache_size > 0);
 
-    int id[SIZE_ARRAY] = {1, 2, 3, 1, 5, 1, 2, 7, 9, 5, 4, 3, 2, 6, 5, 4, 8, 7, 5, 1, 2, 6, 8, 4, 9, 7, 5, 3, 2, 1};
+    int n_pages = 0;
 
-    std::array<Page<int>, SIZE_ARRAY> page_mas;
+    std::cout << "Enter number of pages:" << std::endl;
+    std::cin >> n_pages;
+    std::cout << "Number of pages: " << n_pages << std::endl;
+    assert(n_pages > 0);
 
-    for (int i = 0; i < page_mas.size(); ++i)
-        page_mas[i].id_ = id[i];
+    cache_t cache(cache_size);
+    std::vector<Page<int>> page_massive_vector;
 
-    for (auto &page_ma : page_mas) {
-        if (cache.lookup_LRU(&page_ma)) {
+    for (int i = 0; i < n_pages; ++i) {
+        int id = 0;
+        std::cout << "Enter page " << i + 1 << " id: "  << std::endl;
+        std::cin >> id;
+        std::cout << id << std::endl;
+        page_massive_vector.push_back(Page<int> { id });
+    }
+
+    int hit_LRU = 0;
+    int hit_Optimal = 0;
+
+    for (auto &page_elem : page_massive_vector) {
+        if (cache.lookup_LRU(&page_elem)) {
             hit_LRU++;
         }
     }
 
     cache.clear();
 
-    for (int i = 0; i < page_mas.size(); ++i) {
-        if (cache.lookup_Optimal(&page_mas[i], page_mas.begin() + i + 1, page_mas.end(), i)) {
+    for (unsigned i = 0; i < page_massive_vector.size(); ++i) {
+        if (cache.lookup_Optimal(&page_massive_vector[i], page_massive_vector.begin() + i + 1, page_massive_vector.end(), i)) {
             hit_Optimal++;
         }
     }
 
     std::cout << "hit LRU = " << hit_LRU << std::endl;
     std::cout << "hit Optimal = " << hit_Optimal << std::endl;
+
+//    std::cout << "hit LRU = " << hit_LRU << " expected " << argv[1] << std::endl;
+//    std::cout << "hit Optimal = " << hit_Optimal << " expected " << argv[2] << std::endl;
+//    int arg1 = atoi( argv[1]);
+//    int arg2 = atoi( argv[2]);
+//    if (hit_LRU == arg1 && hit_Optimal == arg2) {
+//        std::cout << "== TEST OK ==" << std::endl;
+//    }
+//    else {
+//        std::cout << "== TEST NOT OK ==" << std::endl;
+//    }
 }
