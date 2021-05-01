@@ -5,7 +5,7 @@
 int main(int argc, char** argv) {
 
     int cache_size = 0;
-    std::cout << "Enter cache size:" << std::endl;
+    std::cout << "Enter Cache size:" << std::endl;
     std::cin >> cache_size;
     std::cout << "Cache size: " << cache_size << std::endl;
     assert(cache_size > 0);
